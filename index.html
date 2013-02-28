@@ -51,8 +51,8 @@
     <section id="continents" class="container">
         <div class="row-fluid">
             <div data-bind="visible: continents().length < 1">Loading continents ...</div>
-            <ul class="thumbnails" data-bind="foreach: continents">
-                <li class="span3">
+            <ul class="thumbnails span12" data-bind="foreach: continents">
+                <li class="span4">
                     <div class="thumbnail">
 
                          <h4 class="btn pull-right" title="Facilities controlled, click to refresh continent."
@@ -63,14 +63,14 @@
                             <div class="bar" style="background: purple;" data-bind="style:{ width: percentage(factions().vs) + '%' }"></div>
                             <div class="bar" style="background: #a52a2a;" data-bind="style:{ width: percentage(factions().tr) + '%' }"></div>
                         </div>
-                        <div class="btn-toolbar">
+                        <div class="btn-toolbar align-center">
                         <div class="btn-group">
                             <a href="#" class="btn btn-warning" data-bind="text: totals().infantry" title="Infantry resources per tick"></a>
                             <a href="#" class="btn btn-danger" data-bind="text: totals().mechanized" title="Mechanized resources per tick"></a>
                             <a href="#" class="btn btn-success" data-bind="text: totals().aerospace" title="Aerospace resources per tick"></a>
                             </div>
                         </div>
-                        <div class="btn-toolbar">
+                        <div class="btn-toolbar align-center">
                           <div class="btn-group">
                         <a href="#" class="btn" data-bind="css: { 'btn-success': loading }" title="Refresh indicator">
                             <i class="icon-refresh"></i>
@@ -97,22 +97,32 @@
         </div>
     </section>
 
-    <footer class="row-fluid">
-        <div class="span12 align-center">
-            Planetside 2 World Monitor | © Armand Pondman 2012 | <a href="http://github.com/apondman/ps2mon" target="_blank">Github</a> | <a href="mailto:cameo@live.nl">Contact</a>         
+    <footer>
+        <div class="row-fluid">
+            <div class="span12 align-center">
+                <a href="https://github.com/apondman/ps2mon#readme" target="github">About</a> | <a href="https://github.com/apondman/ps2mon/commits/gh-pages" target="github">Changelog</a> | <a href="https://github.com/apondman/ps2mon/issues" target="github">Issues</a> | <a href="http://www.cut-throats.co.uk" target="ct">Cut-Throats</a> | <a href="mailto:cameo@live.nl">Contact</a>
+     
+            </div>
         </div>
+        <div class="row-fluid">
+            <div class="span12 align-center">
+                    Planetside 2 World Monitor | © Armand Pondman 2012
+    
+            </div>
+        </div>
+
     </footer>
   <!-- Library CDN's and app -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
   <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>      
-  <script src="js/ps2mon.js"></script>  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
+  <script src="js/ps2mon.min.js"></script> 
 
   <!-- Google Analytics -->
   <script>
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    var _gaq=[['_setAccount','UA-917348-6'],['_trackPageview']];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));
