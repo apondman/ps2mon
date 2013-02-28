@@ -1,0 +1,32 @@
+.align-center {
+    text-align:  center;
+}
+
+.color-red {
+    color: red;
+}
+
+.bg-high {
+    background: red;
+}
+.bg-medium {
+    background: #ffa500;
+}
+.bg-low {
+    background: #7cfc00;
+}
+
+.aerospace {
+    background: url(http://players.planetside2.com/images/map/icons/aerospace_24.png) 0 2px no-repeat;
+}
+
+.infantry {
+    background: url(http://players.planetside2.com/images/map/icons/infantry_24.png) 0 2px no-repeat;
+    padding-left: 24px;
+    height: 30px;
+}
+
+
+.mechanized {
+    background: url(http://players.planetside2.com/images/map/icons/mechanized_24.png) 0 2px no-repeat;
+}
