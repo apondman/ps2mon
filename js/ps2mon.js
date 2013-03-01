@@ -364,7 +364,7 @@ function WorldViewModel(world, empire) {
             serviceId: census_serviceid,
             interval: self.refreshInterval()
         });
-        self.showmap(true);
+        self.showmap(true);        
     }
 
     self.closeMap = function () {

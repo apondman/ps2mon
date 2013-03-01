@@ -10,9 +10,10 @@
   <meta name="description" content="Planetside 2 World Monitor">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
-  <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">
-  <link rel="stylesheet" href="css/ps2mon.css?v=0.71">
+  <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css?v=0.72">
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.72">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//api.ps2hq.com/latest/embed/map.js?v=0.72"></script>
 </head>
 <body id="app">
   <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -20,7 +21,7 @@
     <header id="header" class="container">
     <div class="row-fluid">
         <div class="page-header">
-             <h1>Planetside 2 <small>Dashboard 0.7 <i class="color-red">beta</i></small></h1>
+             <h1>Planetside 2 <small>Dashboard 0.72 <i class="color-red">beta</i></small></h1>
              <select data-bind="value: empire" class="span3" title="select the target faction">
                 <option value="1">Vanu Sovereignty</option>
                 <option value="2">New Conglomerate</option>
@@ -59,7 +60,6 @@
             <ul class="thumbnails span12" data-bind="visible: showmap() == false, foreach: continents">
                 <li class="span4">
                     <div class="thumbnail">
-                        
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
                                 <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
@@ -94,13 +94,11 @@
                                     <i class="icon-fire" ></i>                    
                                 </a>
                             </div>
-                            <div class="btn-group pull-right">
+                            <div class="btn-group">
                                 <a href="#" class="btn btn-warning" data-bind="text: totals().infantry" title="Infantry resources per tick"></a>
                                 <a href="#" class="btn btn-danger" data-bind="text: totals().mechanized" title="Mechanized resources per tick"></a>
                                 <a href="#" class="btn btn-success" data-bind="text: totals().aerospace" title="Aerospace resources per tick"></a>
                             </div>
-                            
-                        
                         </div>
             </li>
             </ul>
@@ -128,8 +126,7 @@
   <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
-  <script src="//api.ps2hq.com/latest/embed/map.js"></script>
-  <script src="js/ps2mon.js?v=0.71"></script> 
+  <script src="js/ps2mon.js?v=0.72"></script> 
 
   <!-- Google Analytics -->
   <script>
