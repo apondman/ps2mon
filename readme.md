@@ -13,6 +13,8 @@ Data gathered from the SOE Data Services API (http://census.soe.com)
 * Facility bonus indicators
 * Resources per tick.
 * Configuration options (tresholds, refresh interval)
+* Continent bonus indicator (needs work)
+* LIVE map!
 
 ## Planned
 
@@ -21,7 +23,6 @@ Data gathered from the SOE Data Services API (http://census.soe.com)
 * Latest (relevant) continent events (data is on the api but currently can't be filtered for each world seperately)
 * Configuring settings through url (for bookmarking)
 * Attack force: some sort of calculated area gain/lose rate of each faction.
-* Continent bonus indicator (if they have that data somewhere in the event stream)
 * "Warpgated" indicator (you have territory but your warpgate is cut off from it)
 * AI: Predicting enemy movement and/or suggest tactical responses.
 * Graphs for relevant tactical data.
@@ -44,4 +45,5 @@ GPLv3
 * Bootstrap: Apache License, Version 2.0
 * Knockout: MIT license
 * LINQ for Javascript: Microsoft Public License (Ms-PL)
+* Planetside 2 MAP API: https://github.com/jhartikainen/planetside2-map-api/
 

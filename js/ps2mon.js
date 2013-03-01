@@ -214,6 +214,11 @@ function ContinentViewModel(parent, zone) {
         self.history(history);
     };
 
+    self.showMap = function () {
+        ps2hq.map.SectorHelper.autoUpdateSectors(parent.map, { worldId: parent.world(), serviceId: census_serviceid });
+        parent.map.setContinent(self.name().toLowerCase());
+        parent.showmap(true);
+    }
 
     // refresh region data
     self.refresh = function () {
@@ -263,6 +268,8 @@ function ContinentViewModel(parent, zone) {
 function WorldViewModel(world, empire) {
     var self = this;
 
+    self.map = new ps2hq.Map('mapContainer');
+    self.showmap = ko.observable(false);
     self.world = ko.observable();
     self.empire = ko.observable(empire);
     self.zones = ko.observableArray();
@@ -273,6 +280,10 @@ function WorldViewModel(world, empire) {
     
     self.tresholdTerritoryHigh = ko.observable(33.33);
     self.tresholdTerritoryLow = ko.observable(10);
+
+    self.closeMap = function () {
+        self.showmap(false);
+    }
 
     self.getRegionIds = function (regionArray) {
         return Enumerable.From(regionArray)
@@ -355,7 +366,7 @@ function WorldViewModel(world, empire) {
         // todo: something fishy here with loading dropdown and setting world id 3 times
         self.loadContinents();   
     });
-    
+
     // load masterdata and world.
     $.when(self.loadZones()
            ,self.loadFacilities("indar")
@@ -369,5 +380,5 @@ function WorldViewModel(world, empire) {
 
 
 $(function () {
-    ko.applyBindings(new WorldViewModel(9, 2));
+    ko.applyBindings(new WorldViewModel(9, 2));   
 });
