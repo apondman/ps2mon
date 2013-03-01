@@ -321,7 +321,7 @@ function WorldViewModel(world, empire) {
 
     self.loadWorlds = function() {
         return $.ajax({
-            url: census_uri + 'world',
+            url: census_uri + 'world?',
             dataType: 'jsonp',
             success: function (data, status) {
                 self.worlds(data.world_list);
@@ -345,7 +345,7 @@ function WorldViewModel(world, empire) {
     
     self.loadFacilities = function (name) {
         return $.ajax({
-            url: census_uri + name + 'map',
+            url: census_uri + name + 'map?',
             data: {
                 "c:limit": 100
             },
