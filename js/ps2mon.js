@@ -5,11 +5,11 @@ Email : apondman@live.nl
 Planetside 2 World Monitor
 
 // todo: events for captures 
-// todo: implement service id
 */
 
-var census_uri = "http://census.soe.com/get/ps2-beta";
-var census_serviceid = "";
+var census_serviceid = "apondman";
+var census_app = "ps2-beta";
+var census_uri = "http://census.soe.com/s:" + census_serviceid + "/get/" + census_app + "/";
 
 function ContinentViewModel(parent, zone) {
     var self = this;
@@ -17,8 +17,10 @@ function ContinentViewModel(parent, zone) {
     self.subscriptions = [];
     self.zone = ko.observable(zone);
     self.regions = ko.observableArray();
-    self.regionHistory = ko.observableArray();
+    self.history = ko.observableArray();
     self.loading = ko.observable(true);
+    self.bonus = ko.observable(-1);
+    
     self.timer = 0;
 
     // name of the continent
@@ -48,7 +50,21 @@ function ContinentViewModel(parent, zone) {
         }).length;
     };
 
-   
+
+    self.toggleBonus = function () {
+        var bonus = self.bonus();
+        var faction = parent.empire();
+
+        switch(bonus) {
+            case -1:
+            case 0:
+              self.bonus(faction);
+              break;
+            case faction:
+              self.bonus(0)
+              break;
+        }
+    }
 
     // warpgate count for this continent
     self.warpgates = ko.computed(function () {
@@ -85,7 +101,10 @@ function ContinentViewModel(parent, zone) {
 
         return has.length;
     };
-    
+
+    self.hasContinentBonus = ko.computed(function () {
+        return self.bonus() == parent.empire();
+    });
     
     self.hasBioBonus = ko.computed(function () {
         return self.hasBonusFor(3);
@@ -100,8 +119,8 @@ function ContinentViewModel(parent, zone) {
     });
 
     // calculate resource of the given type
-    self.calculateResources = function(typeId) {
-        return Enumerable.From(self.owned(parent.empire())).
+    self.calculateResources = function(typeId, faction) {
+        return Enumerable.From(self.owned(faction)).
             Sum(function (x) {
 
                 region = parent.regionLookup().Get(x.RowData.RegionId);
@@ -116,20 +135,6 @@ function ContinentViewModel(parent, zone) {
             });
     }
 
-     // empire totals
-     self.totals = ko.computed(function () {
-        var faction = parent.empire();
-        var regions = self.owned(faction);
-
-        return {
-            regions: regions.length,
-            facilities: self.ownedFacilities(faction),
-            infantry: self.calculateResources(4),  // infantry resources
-            mechanized: self.calculateResources(3), // mechanized resources
-            aerospace: self.calculateResources(2) // aerospace resources
-        };
-    });
-
     // faction totals
     self.factions = ko.computed(function () {
         return {
@@ -139,8 +144,6 @@ function ContinentViewModel(parent, zone) {
         };
     });
 
-
-
     // total accessible regions
     self.total = ko.computed(function () {
         return self.regions().length - self.neutral();
@@ -149,6 +152,22 @@ function ContinentViewModel(parent, zone) {
     self.percentage = function (x) {
         return (x / self.total() * 100);
     };
+
+    self.calculateTotals = function (faction) {
+        var regions = self.owned(faction);
+        return {
+            faction: faction,
+            regions: regions.length,
+            facilities: self.ownedFacilities(faction),
+            infantry: self.calculateResources(4, faction),  // infantry resources
+            mechanized: self.calculateResources(3, faction), // mechanized resources
+            aerospace: self.calculateResources(2, faction) // aerospace resources
+        };
+    };
+
+    self.totals = ko.computed(function () {
+        return self.calculateTotals(parent.empire());
+    });
 
     // continent traffic light status based on treshold values
     self.status = ko.computed(function () {
@@ -166,23 +185,41 @@ function ContinentViewModel(parent, zone) {
         return -1;
     });
 
-    
+    self.computeValuesAndHistory = function (value) {
+        var history = self.history();
 
-    /*
-    self.regions.subscribe(function (newValue) 
-    {
-        // todo: limit history buffer
-        // todo: pop? remove? and push
+        if (history.length == 9) 
+        {
+            // remove history from sample
+            history.splice(0,3);
+        }
 
-        //self.regionHistory.push(newValue);
-    });
-    */
+        for (var i=1; i<4; i++)
+        {
+            // get totals
+            var totals = self.calculateTotals(i);
+
+            // manage continent bonus
+            if (totals.regions == 0 && self.bonus() == i) {
+                self.bonus(0);
+            } else if (totals.regions == self.total()) {
+                self.bonus(i);
+            }
+
+            // push totals
+            history.push(totals);
+        }
+
+        // update history
+        self.history(history);
+    };
+
 
     // refresh region data
     self.refresh = function () {
         self.loading(true);
         $.ajax({
-            url: census_uri + '/map',
+            url: census_uri + 'map',
             data: {
                 world_id: parent.world,
                 zone_ids: zone
@@ -215,6 +252,8 @@ function ContinentViewModel(parent, zone) {
     
     // setup subscriptions & initialize
     self.subscriptions.push(parent.refreshInterval.subscribe(self.updateRefreshInterval));
+    self.subscriptions.push(self.regions.subscribe(self.computeValuesAndHistory));
+    
     self.updateRefreshInterval(parent.refreshInterval());
     
     self.refresh();
@@ -274,7 +313,7 @@ function WorldViewModel(world, empire) {
 
     self.loadWorlds = function() {
         return $.ajax({
-            url: census_uri + '/world',
+            url: census_uri + 'world',
             dataType: 'jsonp',
             success: function (data, status) {
                 self.worlds(data.world_list);
@@ -285,7 +324,7 @@ function WorldViewModel(world, empire) {
     
     self.loadZones = function() {
       return $.ajax({
-            url: census_uri + '/zone',
+            url: census_uri + 'zone',
             data: {
                 "c:limit": 100
             },
@@ -298,7 +337,7 @@ function WorldViewModel(world, empire) {
     
     self.loadFacilities = function (name) {
         return $.ajax({
-            url: census_uri + '/' + name + 'map',
+            url: census_uri + name + 'map',
             data: {
                 "c:limit": 100
             },

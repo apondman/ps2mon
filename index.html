@@ -6,11 +6,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Planetside 2 World Monitor | v0.5b</title>
-  <meta name="description" content="">
+  <title>Planetside 2 World Monitor | v0.6b</title>
+  <meta name="description" content="Planetside 2 World Monitor">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
-  <link rel="stylesheet" href="css/ps2mon.css">
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.6">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
@@ -22,7 +22,7 @@
         <div class="page-header">
              <h1>Planetside 2 <small>World Monitor 0.5 <i class="color-red">beta</i></small></h1>
              <select data-bind="value: empire" class="span3" title="select the target faction">
-                <option value="1">Vanu</option>
+                <option value="1">Vanu Sovereignty</option>
                 <option value="2">New Conglomerate</option>
                 <option value="3">Terran Republic</option>
             </select>
@@ -54,9 +54,21 @@
             <ul class="thumbnails span12" data-bind="foreach: continents">
                 <li class="span4">
                     <div class="thumbnail">
+                         
+                        <div class="btn-toolbar pull-right">
+                          <div class="btn-group">
+                              <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }">
 
-                         <h4 class="btn pull-right" title="Facilities controlled, click to refresh continent."
-                        data-bind="click: refresh, text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }"></h4> 
+                              </a>
+                              <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: toggleBonus, css: {'btn-success': hasContinentBonus, 'btn-danger': bonus() > 0 , 'btn-inverse': bonus() == -1 }">
+                                <i class="icon-globe" data-bind="css: {'icon-white': bonus() == -1 }"></i>
+                              </a>
+                              <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
+                                <i class="icon-refresh"></i>
+                              </a>
+                          </div>
+                        </div>   
+ 
                          <h3 data-bind="text: name"></h3>
                         <div class="progress" title="Territory controlled in % by faction">
                             <div class="bar" data-bind="style:{ width: percentage(factions().nc) + '%' }"></div>
@@ -72,10 +84,7 @@
                         </div>
                         <div class="btn-toolbar align-center">
                           <div class="btn-group">
-                        <a href="#" class="btn" data-bind="css: { 'btn-success': loading }" title="Refresh indicator">
-                            <i class="icon-refresh"></i>
-                        </a>
-                        <a href="#" class="btn" data-bind="css: { 'btn-success': hasBioBonus }" title="Health Generation Bonus indicator">
+                        <a href="#" class="btn" data-bind="css: { 'btn-success': hasBioBonus }" title="Health Regeneration Bonus indicator">
                             <i class="icon-heart"></i>
                         </a>
                         <a href="#" class="btn" data-bind="css: { 'btn-success': hasTechBonus }" title="Main Battle Tank Bonus indicator">
@@ -84,14 +93,16 @@
                         <a href="#" class="btn" data-bind="css: { 'btn-success': hasAmpBonus}" title="Phalanx Overheat Reduction Bonus indicator">
                             <i class="icon-fire" ></i>                    
                         </a>
-                    
+                            
                         </div>
-                    </div>
 
+                         
+                    </div>
         </div>
-        </li>
+            </li>
             </ul>
             <p class="clearfix align-center">
+             
             You can view the visual map at <a href="http://players.planetside2.com/#!/planetstatus" target="_blank">Planet Status</a> on SOE Planetside 2 Players.
             </p>
         </div>
@@ -118,7 +129,7 @@
   <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
-  <script src="js/ps2mon.min.js"></script> 
+  <script src="js/ps2mon.min.js?v=0.6"></script> 
 
   <!-- Google Analytics -->
   <script>
