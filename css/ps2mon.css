@@ -1,7 +1,3 @@
-.align-center {
-    text-align:  center;
-}
-
 .color-red {
     color: red;
 }
@@ -16,20 +12,17 @@
     background: #7cfc00;
 }
 
-.aerospace {
-    background: url(http://players.planetside2.com/images/map/icons/aerospace_24.png) 0 2px no-repeat;
+.icon-aerospace {
+    background: url("https://players.planetside2.com/images/map/icons/aerospace.png?v=135.8") 0 2px no-repeat;
 }
 
-.infantry {
-    background: url(http://players.planetside2.com/images/map/icons/infantry_24.png) 0 2px no-repeat;
-    padding-left: 24px;
-    height: 30px;
+.icon-infantry {
+    background: url("https://players.planetside2.com/images/map/icons/infantry.png?v=135.8") 0 2px no-repeat;
 }
 
 
-
-.mechanized {
-    background: url(http://players.planetside2.com/images/map/icons/mechanized_24.png) 0 2px no-repeat;
+.icon-mechanized {
+    background: url("https://players.planetside2.com/images/map/icons/mechanized.png?v=135.8") 0 2px no-repeat;
 }
 
 .btn-group { margin-bottom:  5px;}
