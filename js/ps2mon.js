@@ -215,8 +215,8 @@ function ContinentViewModel(parent, zone) {
     };
 
     self.showMap = function () {
-        parent.map.setContinent(self.name().toLowerCase());
-        parent.openMap();
+        var map = parent.openMap();
+        map.setContinent(self.name().toLowerCase());
     }
 
     // refresh region data
@@ -268,7 +268,8 @@ function WorldViewModel(world, empire) {
     var self = this;
 
     self.mapTimer = 0;
-    self.map = new ps2hq.Map('mapContainer');
+    self.map = null;
+
     self.showmap = ko.observable(false);
     self.world = ko.observable();
     self.empire = ko.observable(empire);
@@ -357,14 +358,25 @@ function WorldViewModel(world, empire) {
         });
     };
 
-    self.openMap = function() {
+    self.openMap = function () {
+        self.showmap(true)
+
+        if (!self.map) {
+            self.map = new ps2hq.Map('mapContainer');
+            self.map.showGrid(false)
+        }
+
         ps2hq.map.SectorHelper.stopAutoUpdateSectors(self.mapTimer);
         self.mapTimer = ps2hq.map.SectorHelper.autoUpdateSectors(self.map, {
             worldId: self.world(),
             serviceId: census_serviceid,
             interval: self.refreshInterval()
         });
-        self.showmap(true);        
+
+        ;
+        $(".continent-control").hide();
+
+        return self.map;
     }
 
     self.closeMap = function () {
