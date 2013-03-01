@@ -13,16 +13,16 @@
 }
 
 .icon-aerospace {
-    background: url("https://players.planetside2.com/images/map/icons/aerospace.png?v=135.8") 0 2px no-repeat;
+    background: url("../img/aerospace.png?v=135.8") 0 2px no-repeat;
 }
 
 .icon-infantry {
-    background: url("https://players.planetside2.com/images/map/icons/infantry.png?v=135.8") 0 2px no-repeat;
+    background: url("../img/infantry.png?v=135.8") 0 2px no-repeat;
 }
 
 
 .icon-mechanized {
-    background: url("https://players.planetside2.com/images/map/icons/mechanized.png?v=135.8") 0 2px no-repeat;
+    background: url("../img/mechanized.png?v=135.8") 0 2px no-repeat;
 }
 
 .btn-group { margin-bottom:  5px;}
