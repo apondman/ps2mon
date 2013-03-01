@@ -29,9 +29,9 @@ Data gathered from the SOE Data Services API (http://census.soe.com)
 
 ## Project information
 
+* App: http://apondman.github.com/ps2mon 
 * Source: http://github.com/apondman/ps2mon
-* Web: http://github.com/apondman/ps2mon 
-* Docs: http://github.com/apondman/ps2mon 
+* Docs: http://github.com/apondman/ps2mon
 
 ## License
 
