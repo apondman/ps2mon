@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
   <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">
-  <link rel="stylesheet" href="css/ps2mon.css?v=0.7">
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.71">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 </head>
 <body id="app">
@@ -56,62 +56,55 @@
     <section id="continents" class="container">
         <div class="row-fluid">
             <div data-bind="visible: continents().length < 1">Loading continents ...</div>
-
-            <div id="mapContainer" style="height: 600px" data-bind="visible: showmap"></div>
-
             <ul class="thumbnails span12" data-bind="visible: showmap() == false, foreach: continents">
                 <li class="span4">
                     <div class="thumbnail">
-                         
+                        
                         <div class="btn-toolbar pull-right">
-                          <div class="btn-group">
-                              <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }">
-
-                              </a>
-                              <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: toggleBonus, css: {'btn-success': hasContinentBonus, 'btn-danger': bonus() > 0 , 'btn-inverse': bonus() == -1 }">
-                                <i class="icon-star" data-bind="css: {'icon-white': bonus() == -1 }"></i>
-                              </a>
-                              <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
-                                <i class="icon-globe"></i>
-                              </a>
-                              <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
-                                <i class="icon-refresh"></i>
-                              </a>
-                          </div>
-                        </div>   
- 
-                         <h3 data-bind="text: name"></h3>
+                            <div class="btn-group">
+                                <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
+                                    <i class="icon-globe"></i>
+                                </a>
+                                <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
+                                    <i class="icon-refresh"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <h3 data-bind="text: name"></h3>
                         <div class="progress" title="Territory controlled in % by faction">
                             <div class="bar" data-bind="style:{ width: percentage(factions().nc) + '%' }"></div>
                             <div class="bar" style="background: purple;" data-bind="style:{ width: percentage(factions().vs) + '%' }"></div>
                             <div class="bar" style="background: #a52a2a;" data-bind="style:{ width: percentage(factions().tr) + '%' }"></div>
                         </div>
-                        <div class="btn-toolbar align-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-warning" data-bind="text: totals().infantry" title="Infantry resources per tick"></a>
-                            <a href="#" class="btn btn-danger" data-bind="text: totals().mechanized" title="Mechanized resources per tick"></a>
-                            <a href="#" class="btn btn-success" data-bind="text: totals().aerospace" title="Aerospace resources per tick"></a>
-                            </div>
-                        </div>
-                        <div class="btn-toolbar align-center">
-                          <div class="btn-group">
-                        <a href="#" class="btn" data-bind="css: { 'btn-success': hasBioBonus }" title="Health Regeneration Bonus indicator">
-                            <i class="icon-heart"></i>
-                        </a>
-                        <a href="#" class="btn" data-bind="css: { 'btn-success': hasTechBonus }" title="Main Battle Tank Bonus indicator">
-                            <i class="icon-plane" ></i>
-                        </a>
-                        <a href="#" class="btn" data-bind="css: { 'btn-success': hasAmpBonus}" title="Phalanx Overheat Reduction Bonus indicator">
-                            <i class="icon-fire" ></i>                    
-                        </a>
-                            
-                        </div>
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }">
 
-                         
-                    </div>
-        </div>
+                                </a>
+                                <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: toggleBonus, css: {'btn-success': hasContinentBonus, 'btn-danger': bonus() > 0 , 'btn-inverse': bonus() == -1 }">
+                                    <i class="icon-star" data-bind="css: {'icon-white': bonus() == -1 }"></i>
+                                </a>
+                                <a href="#" class="btn" data-bind="css: { 'btn-success': hasBioBonus }" title="Health Regeneration Bonus indicator">
+                                    <i class="icon-heart"></i>
+                                </a>
+                                <a href="#" class="btn" data-bind="css: { 'btn-success': hasTechBonus }" title="Main Battle Tank Bonus indicator">
+                                    <i class="icon-plane" ></i>
+                                </a>
+                                <a href="#" class="btn" data-bind="css: { 'btn-success': hasAmpBonus}" title="Phalanx Overheat Reduction Bonus indicator">
+                                    <i class="icon-fire" ></i>                    
+                                </a>
+                            </div>
+                            <div class="btn-group pull-right">
+                                <a href="#" class="btn btn-warning" data-bind="text: totals().infantry" title="Infantry resources per tick"></a>
+                                <a href="#" class="btn btn-danger" data-bind="text: totals().mechanized" title="Mechanized resources per tick"></a>
+                                <a href="#" class="btn btn-success" data-bind="text: totals().aerospace" title="Aerospace resources per tick"></a>
+                            </div>
+                            
+                        
+                        </div>
             </li>
             </ul>
+            <div id="mapContainer" style="height: 600px" data-bind="visible: showmap"></div>
         </div>
     </section>
 
@@ -136,7 +129,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
   <script src="//api.ps2hq.com/latest/embed/map.js"></script>
-  <script src="js/ps2mon.min.js?v=0.7"></script> 
+  <script src="js/ps2mon.js?v=0.71"></script> 
 
   <!-- Google Analytics -->
   <script>

@@ -215,9 +215,8 @@ function ContinentViewModel(parent, zone) {
     };
 
     self.showMap = function () {
-        ps2hq.map.SectorHelper.autoUpdateSectors(parent.map, { worldId: parent.world(), serviceId: census_serviceid });
         parent.map.setContinent(self.name().toLowerCase());
-        parent.showmap(true);
+        parent.openMap();
     }
 
     // refresh region data
@@ -268,6 +267,7 @@ function ContinentViewModel(parent, zone) {
 function WorldViewModel(world, empire) {
     var self = this;
 
+    self.mapTimer = 0;
     self.map = new ps2hq.Map('mapContainer');
     self.showmap = ko.observable(false);
     self.world = ko.observable();
@@ -280,10 +280,6 @@ function WorldViewModel(world, empire) {
     
     self.tresholdTerritoryHigh = ko.observable(33.33);
     self.tresholdTerritoryLow = ko.observable(10);
-
-    self.closeMap = function () {
-        self.showmap(false);
-    }
 
     self.getRegionIds = function (regionArray) {
         return Enumerable.From(regionArray)
@@ -361,10 +357,34 @@ function WorldViewModel(world, empire) {
         });
     };
 
-    // when the world changes we must update our continents    
-    self.world.subscribe(function (newValue) {
+    self.openMap = function() {
+        ps2hq.map.SectorHelper.stopAutoUpdateSectors(self.mapTimer);
+        self.mapTimer = ps2hq.map.SectorHelper.autoUpdateSectors(self.map, {
+            worldId: self.world(),
+            serviceId: census_serviceid,
+            interval: self.refreshInterval()
+        });
+        self.showmap(true);
+    }
+
+    self.closeMap = function () {
+        ps2hq.map.SectorHelper.stopAutoUpdateSectors(self.mapTimer);
+        self.showmap(false);
+    }
+
+    // when the world changes we must update our continents
+    self.world.subscribe(function (value) {
+        if (self.showmap() == true) {
+            ps2hq.map.SectorHelper.stopAutoUpdateSectors(self.mapTimer);
+            self.mapTimer = ps2hq.map.SectorHelper.autoUpdateSectors(self.map, {
+                worldId: value,
+                serviceId: census_serviceid,
+                interval: self.refreshInterval()
+            });
+        }
+        
         // todo: something fishy here with loading dropdown and setting world id 3 times
-        self.loadContinents();   
+        self.loadContinents();
     });
 
     // load masterdata and world.
