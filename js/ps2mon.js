@@ -149,6 +149,9 @@ function ContinentViewModel(parent, zone) {
         return self.regions().length - self.neutral();
     });
 
+
+    
+
     self.percentage = function (x) {
         return (x / self.total() * 100);
     };
@@ -167,6 +170,20 @@ function ContinentViewModel(parent, zone) {
 
     self.totals = ko.computed(function () {
         return self.calculateTotals(parent.empire());
+    });
+
+
+    self.captureRate = ko.computed(function () {
+        var avg = Enumerable.From(self.history())
+                  .Where("$.faction == " + parent.empire())
+                  .Select("$.regions")
+                  .Average();
+
+        return (self.totals().regions / avg);
+    });
+
+    self.captureRatePercentage = ko.computed(function () {
+        return (self.captureRate() * 100 - 100).toFixed(1);
     });
 
     // continent traffic light status based on treshold values
@@ -188,7 +205,7 @@ function ContinentViewModel(parent, zone) {
     self.computeValuesAndHistory = function (value) {
         var history = self.history();
 
-        if (history.length == 9) 
+        if (history.length == 120) 
         {
             // remove history from sample
             history.splice(0,3);

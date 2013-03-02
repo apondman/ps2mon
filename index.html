@@ -6,12 +6,12 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Planetside 2 Dashboard | v0.74b</title>
+  <title>Planetside 2 Dashboard | v0.75b</title>
   <meta name="description" content="Planetside 2 World Monitor">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
   <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">
-  <link rel="stylesheet" href="css/ps2mon.css?v=0.741">
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.75">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 </head>
 <body id="app">
@@ -20,7 +20,7 @@
     <header id="header" class="container">
     <div class="row-fluid">
         <div class="page-header">
-             <h1>Planetside 2 <small>Dashboard 0.74 <i class="color-red">beta</i></small></h1>
+             <h1>Planetside 2 <small>Dashboard 0.75 <i class="color-red">beta</i></small></h1>
              <select data-bind="value: empire" class="span3" title="select the target faction">
                 <option value="1">Vanu Sovereignty</option>
                 <option value="2">New Conglomerate</option>
@@ -74,7 +74,7 @@
                             <div class="btn-group">
 
                             <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }">
-
+                            <a href="#" class="btn" title="Capture Rate" data-bind="css: { 'btn-success': captureRate() > 1, 'btn-danger': captureRate() < 1, 'btn-warning': captureRate() == 1 }"><i class="icon-white" data-bind="css: { 'icon-arrow-up': captureRate() > 1, 'icon-arrow-down': captureRate() < 1, 'icon-pause': captureRate() == 1 }"></i> </a>
                                 </a>
                                 <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: toggleBonus, css: {'btn-success': hasContinentBonus, 'btn-danger': bonus() > 0 , 'btn-inverse': bonus() == -1 }">
                                     <i class="icon-star" data-bind="css: {'icon-white': bonus() == -1 }"></i>
@@ -93,13 +93,13 @@
                                     <i class="icon-heart"></i>
                                 </a>
                                 <a href="#" class="btn" data-bind="css: { 'btn-success': hasTechBonus }" title="Main Battle Tank Bonus indicator">
-                                    <i class="icon-plane" ></i>
+                                    <i class="icon-plane"></i>
                                 </a>
                                 <a href="#" class="btn" data-bind="css: { 'btn-success': hasAmpBonus}" title="Phalanx Overheat Reduction Bonus indicator">
-                                    <i class="icon-fire" ></i>                    
+                                    <i class="icon-fire"></i>                    
                                 </a>
                             </div>
-
+                           
                             <div class="btn-group pull-right">
                                 <a href="#" class="btn btn-inverse" title="Infantry resources per tick"><i class="icon-infantry"></i> <!--ko text: totals().infantry--><!--/ko--></a>
                                 <a href="#" class="btn btn-inverse" title="Mechanized resources per tick"><i class="icon-mechanized"></i> <!--ko text: totals().mechanized--><!--/ko--></a>
@@ -135,7 +135,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
   <script src="//api.ps2hq.com/latest/embed/map.js"></script>
-  <script src="js/ps2mon.min.js?v=0.742"></script> 
+  <script src="js/ps2mon.min.js?v=0.75"></script> 
 
   <!-- Google Analytics -->
   <script>
