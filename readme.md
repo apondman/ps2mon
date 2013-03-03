@@ -14,7 +14,7 @@ Data gathered from the SOE Data Services API (http://census.soe.com)
 * Resources per tick.
 * Configuration options (tresholds, refresh interval)
 * Continent bonus indicator (needs work)
-* LIVE map!
+* LIVE map! (temporarily disabled, need to sort out hosting)
 
 ## Planned
 
