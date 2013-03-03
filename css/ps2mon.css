@@ -25,4 +25,17 @@
     background: url("../img/mechanized.png?v=135.8") 0 2px no-repeat;
 }
 
+.icon-mechanized {
+    background: url("../img/mechanized.png?v=135.8") no-repeat;
+}
+
 .btn-group { margin-bottom:  5px;}
+
+.navbar-form select {
+}
+
+.navbar-form input-prepend {
+    display:  inline-block;
+}
+
+img.ps2 {height: 24px; width: 24px;}

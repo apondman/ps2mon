@@ -6,52 +6,77 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Planetside 2 Dashboard | v0.75b</title>
+  <title>Planetside 2 Dashboard | v0.78</title>
   <meta name="description" content="Planetside 2 World Monitor">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
-  <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">
-  <link rel="stylesheet" href="css/ps2mon.css?v=0.75">
+  <!--<link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">-->
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.78">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 </head>
 <body id="app">
   <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
   
-    <header id="header" class="container">
-    <div class="row-fluid">
-        <div class="page-header">
-             <h1>Planetside 2 <small>Dashboard 0.75 <i class="color-red">beta</i></small></h1>
-             <select data-bind="value: empire" class="span3" title="select the target faction">
-                <option value="1">Vanu Sovereignty</option>
-                <option value="2">New Conglomerate</option>
-                <option value="3">Terran Republic</option>
-            </select>
-            <select class="span3" title="select the server" data-bind="options: worlds, optionsText: function(item) { return item.name.en }, optionsValue: function(item) { return item.server_id }, value: world"></select>
-        <div class="input-prepend" data-toggle="tooltip" title="Data refresh interval in seconds"> <span class="add-on"><i class="icon icon-time"></i></span>
-            <input type="number"
-            data-bind="value: refreshInterval" min="15" size="3" class="input-mini"
-            />
-        </div>
-        <div class="input-prepend" data-toggle="tooltip" title="Show green indicator if the value of controlled regions is above percentage"> <span class="add-on"><i class="icon icon-ok"></i></span>
+    <header class="navbar navbar-inverse navbar-static-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/"><img class="ps2" src="img/ps2-logo.jpg" alt="Planetside 2" /> Dashboard</a> 
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="navbar-form form-inline">
+                  <select data-bind="value: empire" title="select the target faction" class="input-large">
+                    <option value="1">Vanu Sovereignty</option>
+                    <option value="2">New Conglomerate</option>
+                    <option value="3">Terran Republic</option>
+                  </select>
+                  <select title="select the server" class="input-large" data-bind="options: worlds, optionsText: function(item) { return item.name.en }, optionsValue: function(item) { return item.server_id }, value: world"></select>
+                      <div class="input-prepend" data-toggle="tooltip" title="Data refresh interval in seconds"> <span class="add-on"><i class="icon icon-time"></i></span>
+                        <input type="number"
+                        data-bind="value: refreshInterval" min="15" size="3" class="input-mini"
+                        />
+                    </div>
+                    <div class="input-prepend" data-toggle="tooltip" title="Show green indicator if the value of controlled regions is above percentage"> <span class="add-on"><i class="icon icon-ok"></i></span>
+                        <input type="number"
+                        data-bind="value: tresholdTerritoryHigh" min="1" size="2" class="input-mini"
+                        />
+                    </div>
+                    <div class="input-prepend" data-toggle="tooltip" title="Show red indicator if the value of controlled regions is below this percentage"> <span class="add-on"><i class="icon icon-remove"></i></span>
 
-            <input type="number"
-            data-bind="value: tresholdTerritoryHigh" min="1" size="2" class="input-mini"
-            />
+                        <input type="number"
+                        data-bind="value: tresholdTerritoryLow" min="1" size="2" class="input-mini"
+                        />
+                    </div>
+              </li>
+              <li>
+                <a href="https://github.com/apondman/ps2mon#readme" target="github">About</a>
+              </li>
+              <li>
+                <a href="#">v0.78 beta</a>
+              </li>
+              
+              
+            </ul>
+          </div>
         </div>
-        <div class="input-prepend" data-toggle="tooltip" title="Show red indicator if the value of controlled regions is below this percentage"> <span class="add-on"><i class="icon icon-remove"></i></span>
-
-            <input type="number"
-            data-bind="value: tresholdTerritoryLow" min="1" size="2" class="input-mini"
-            />
-        </div>
-        <div class="input-prepend" data-bind="visible: showmap">
-            <button class="btn" data-bind="visible: showmap, click: closeMap">
-               <i class="icon-th-large"></i> Back to dashboard
-            </button>
+      </div>
+    </header>
+    
+    <p></p>
+    <div class="container" data-bind="visible: showmap">
+        <div class="row-fluid">
+            <div class="input-prepend">
+                <button class="btn" data-bind="visible: showmap, click: closeMap">
+                   <i class="icon-th-large"></i> Back to dashboard
+                </button>
+                </div>
             </div>
-        </div>
-    </div>  
-  </header>
+        </div>  
+    </div>
 
     <section id="continents" class="container">
         <div class="row-fluid">
@@ -62,12 +87,15 @@
                         <div class="btn-toolbar pull-left">
                             <div class="btn-group">
                                 <a href="#" class="btn"><strong data-bind="text: name"></strong></a>
-                                 <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
+                                <!--
+                                <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
                                         <i class="icon-globe"></i>
                                     </a>
+                                -->
                                     <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
                                         <i class="icon-refresh"></i>
                                     </a>
+
                             </div>
                          </div>
                         <div class="btn-toolbar pull-right">
@@ -117,7 +145,7 @@
     <footer>
         <div class="row-fluid">
             <div class="span12 text-center">
-                <br /><a href="https://github.com/apondman/ps2mon#readme" target="github">About</a> | <a href="https://github.com/apondman/ps2mon/commits/gh-pages" target="github">Changelog</a> | <a href="https://github.com/apondman/ps2mon/issues" target="github">Issues</a> | <a href="http://www.cut-throats.co.uk" target="ct">Cut-Throats</a> | <a href="mailto:cameo@live.nl">Contact</a>
+                <br /><a href="https://github.com/apondman/ps2mon/commits/gh-pages" target="github">Changelog</a> | <a href="https://github.com/apondman/ps2mon/issues" target="github">Issues</a> | <a href="http://www.cut-throats.co.uk" target="ct">Cut-Throats</a> | <a href="mailto:cameo@live.nl">Contact</a>
             </div>
         </div>
         <div class="row-fluid">
@@ -134,8 +162,8 @@
   <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
-  <script src="//api.ps2hq.com/latest/embed/map.js"></script>
-  <script src="js/ps2mon.min.js?v=0.75"></script> 
+  <!-- <script src="//api.ps2hq.com/latest/embed/map.js"></script>-->
+  <script src="js/ps2mon.min.js?v=0.78"></script> 
 
   <!-- Google Analytics -->
   <script>
