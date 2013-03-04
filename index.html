@@ -11,8 +11,8 @@
   <meta name="viewport" content="width=device-width">
   <link href="favicon.ico" rel="shortcut icon"/>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
-  <!--<link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">-->
-  <link rel="stylesheet" href="css/ps2mon.css?v=0.80">
+  <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.81">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 </head>
 <body id="app">
@@ -89,11 +89,9 @@
                         <div class="btn-toolbar pull-left">
                             <div class="btn-group">
                                 <a href="#" class="btn"><strong data-bind="text: name"></strong></a>
-                                <!--
                                 <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
                                         <i class="icon-globe"></i>
                                     </a>
-                                -->
                                     <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
                                         <i class="icon-refresh"></i>
                                     </a>
@@ -142,10 +140,10 @@
             </ul>
             <div id="mapContainer" style="height: 600px" data-bind="visible: showmap"></div>
             <div class="text-center">
-            <div class="input-prepend" title="The following url can be used as bookmark to jump to the selected server and faction.">
-                <span class="add-on"><i class="icon-bookmark"></i></span>
-                <input type="text" class="input-xxlarge" data-bind="value: bookmarkUrl, click: selectText" />
-            </div>
+                <div class="input-prepend" title="The following url can be used as bookmark to jump to the selected server and faction.">
+                    <span class="add-on"><i class="icon-bookmark"></i></span>
+                    <input type="text" class="input-xxlarge" data-bind="value: bookmarkUrl, click: selectText" />
+                </div>
             </div>
         </div>
     </section>
@@ -171,8 +169,8 @@
   <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
-  <!-- <script src="//api.ps2hq.com/latest/embed/map.js"></script>-->
-  <script src="js/ps2mon.min.js?v=0.80"></script> 
+  <script src="//api.ps2hq.com/latest/embed/map.js"></script>
+  <script src="js/ps2mon.min.js?v=0.81"></script> 
 
   <!-- Google Analytics -->
   <script>
