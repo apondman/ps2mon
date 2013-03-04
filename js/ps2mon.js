@@ -10,6 +10,7 @@ Planetside 2 World Monitor
 var census_serviceid = "apondman";
 var census_app = "ps2-beta";
 var census_uri = "http://census.soe.com/s:" + census_serviceid + "/get/" + census_app + "/";
+var app_uri = $.url();
 
 function ContinentViewModel(parent, zone) {
     var self = this;
@@ -149,9 +150,6 @@ function ContinentViewModel(parent, zone) {
         return self.regions().length - self.neutral();
     });
 
-
-    
-
     self.percentage = function (x) {
         return (x / self.total() * 100);
     };
@@ -259,10 +257,6 @@ function ContinentViewModel(parent, zone) {
         self.timer = setInterval(self.refresh, interval * 1000);
     };
 
-    //this.myObservable.subscribe(function(previousValue){
-    //I'd like to get the previous value of 'myObservable' here before it's set to newValue
-    //}, this, "beforeChange");
-
     // dispose model
     self.dispose = function() {
         // unsubscribe
@@ -282,22 +276,41 @@ function ContinentViewModel(parent, zone) {
 
 
 function WorldViewModel(world, empire) {
-    var self = this;
 
+    // variables
+    var self = this;
     self.mapTimer = 0;
     self.map = null;
 
+    // observables
     self.showmap = ko.observable(false);
-    self.world = ko.observable();
+    self.worlds = ko.observableArray();
+    self.world = ko.observable(world);
     self.empire = ko.observable(empire);
     self.zones = ko.observableArray();
     self.continents = ko.observableArray();
     self.regions = ko.observableArray();
-    self.worlds = ko.observableArray();
     self.refreshInterval = ko.observable(20);
-    
     self.tresholdTerritoryHigh = ko.observable(33.33);
     self.tresholdTerritoryLow = ko.observable(10);
+    self.factions = ko.observableArray([
+        { id: 1, name: "Vanu Sovereignty"},
+        { id: 2, name: "New Conglomerate"},
+        { id: 3, name: "Terran Republic"},
+    ]);
+
+
+        self.bookmarkUrl = ko.computed(function () {
+            return app_uri.attr("protocol") + "://" + app_uri.attr("host") + app_uri.attr("path") + "?w=" + self.world() + "&f=" + self.empire();
+        });
+
+    // World name (computed)
+    self.name = ko.computed(function() {
+        return Enumerable.From(self.worlds())
+                      .Where("$.server_id == " + self.world())
+                      .Select("$.name.en")
+                      .ToArray();
+    });
 
     self.getRegionIds = function (regionArray) {
         return Enumerable.From(regionArray)
@@ -341,8 +354,9 @@ function WorldViewModel(world, empire) {
             url: census_uri + 'world?',
             dataType: 'jsonp',
             success: function (data, status) {
-                self.worlds(data.world_list);
-                self.world(world);
+                list = data.world_list
+                list.sort(function(a,b) { return a.name.en > b.name.en } )
+                self.worlds(list);
             }
         });
     };
@@ -401,6 +415,10 @@ function WorldViewModel(world, empire) {
         self.showmap(false);
     }
 
+    self.selectText = function (data, event) {
+        $(event.target).select();
+    }
+
     // when the world changes we must update our continents
     self.world.subscribe(function (value) {
         if (self.showmap() == true) {
@@ -411,23 +429,28 @@ function WorldViewModel(world, empire) {
                 interval: self.refreshInterval()
             });
         }
-        
-        // todo: something fishy here with loading dropdown and setting world id 3 times
         self.loadContinents();
     });
 
     // load masterdata and world.
-    $.when(self.loadZones()
-           ,self.loadFacilities("indar")
-           ,self.loadFacilities("amerish")
-           ,self.loadFacilities("esamir")
-    ).done(function(){
+    $.when(
+           self.loadZones()
+           , self.loadFacilities("indar")
+           , self.loadFacilities("amerish")
+           , self.loadFacilities("esamir")
+    ).done(function () {
         // execute if all ajax calls are finished
-        self.loadWorlds(world);
+        self.loadWorlds();
     });   
 }
 
 
 $(function () {
-    ko.applyBindings(new WorldViewModel(9, 2));   
+    w = app_uri.param("w");
+    f = app_uri.param("f");
+
+    w = (undefined != w) ? parseInt(w) : 0;
+    f = (undefined != f) ? parseInt(f) : 0;
+
+    ko.applyBindings(new WorldViewModel(w, f));
 });

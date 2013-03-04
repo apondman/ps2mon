@@ -39,3 +39,38 @@
 }
 
 img.ps2 {height: 24px; width: 24px;}
+
+.world-header {
+    height:  70px;
+    line-height:  70px;
+    padding-left: 75px;
+}
+
+.faction-bg1 {
+    background: url("../img/vs_70x70.png") no-repeat;
+}
+
+.faction-bg2 {
+    background: url("../img/nc_70x70.png") no-repeat;
+}
+
+.faction-bg3 {
+    background: url("../img/tr_56x68.png") no-repeat;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 20px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+}
+
+@media (max-width: 767px) {
+    .footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    }
+}
