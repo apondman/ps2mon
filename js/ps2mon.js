@@ -160,16 +160,15 @@ function ContinentViewModel(parent, zone) {
             faction: faction,
             regions: regions.length,
             facilities: self.ownedFacilities(faction),
-            infantry: self.calculateResources(4, faction),  // infantry resources
+            infantry: self.calculateResources(4, faction),   // infantry resources
             mechanized: self.calculateResources(3, faction), // mechanized resources
-            aerospace: self.calculateResources(2, faction) // aerospace resources
+            aerospace: self.calculateResources(2, faction)   // aerospace resources
         };
     };
 
     self.totals = ko.computed(function () {
         return self.calculateTotals(parent.empire());
     });
-
 
     self.captureRate = ko.computed(function () {
         var avg = Enumerable.From(self.history())
@@ -230,6 +229,7 @@ function ContinentViewModel(parent, zone) {
     };
 
     self.showMap = function () {
+        parent.showcontinent(self.zone());
         var map = parent.openMap();
         map.setContinent(self.name().toLowerCase());
     }
@@ -284,11 +284,23 @@ function WorldViewModel(world, empire) {
 
     // observables
     self.showmap = ko.observable(false);
+    
+    self.showcontinent = ko.observable();
+    
+
     self.worlds = ko.observableArray();
     self.world = ko.observable(world);
     self.empire = ko.observable(empire);
     self.zones = ko.observableArray();
     self.continents = ko.observableArray();
+
+    self.zone = ko.computed(function () {
+        return Enumerable.From(self.continents())
+                      .Where("$.zone() == " + self.showcontinent())
+                      .FirstOrDefault();
+    });
+
+
     self.regions = ko.observableArray();
     self.refreshInterval = ko.observable(20);
     self.tresholdTerritoryHigh = ko.observable(33.33);

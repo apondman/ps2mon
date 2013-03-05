@@ -6,13 +6,13 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Planetside 2 Dashboard | v0.81</title>
+  <title>Planetside 2 Dashboard | v0.82</title>
   <meta name="description" content="Planetside 2 World Monitor">
   <meta name="viewport" content="width=device-width">
   <link href="favicon.ico" rel="shortcut icon"/>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css">  
   <link rel="stylesheet" href="//api.ps2hq.com/latest/embed/map.css">
-  <link rel="stylesheet" href="css/ps2mon.css?v=0.81">
+  <link rel="stylesheet" href="css/ps2mon.css?v=0.82">
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 </head>
 <body id="app">
@@ -59,7 +59,7 @@
                 <a href="https://github.com/apondman/ps2mon#readme" target="github">About</a>
               </li>
               <li>
-                <a href="#">v0.81 beta</a>
+                <a href="#">v0.82 beta</a>
               </li>
               
               
@@ -72,11 +72,7 @@
     <div class="container">
         <div class="row-fluid">
             <h2 data-bind="text: name, attr: { 'class': 'world-header faction-bg' + empire() }"></h2>
-            <div class="input-prepend" data-bind="visible: showmap">
-                <button class="btn" data-bind="visible: showmap, click: closeMap">
-                   <i class="icon-th-large"></i> Back to dashboard
-                </button>
-            </div>
+            
         </div>  
     </div>
 
@@ -87,30 +83,30 @@
                 <li class="span4">
                     <div class="thumbnail">
                         <div class="btn-toolbar pull-left">
-                            <div class="btn-group">
-                                <a href="#" class="btn"><strong data-bind="text: name"></strong></a>
-                                <a href="#" class="btn" title="Click to open live map"data-bind="click: showMap">
-                                        <i class="icon-globe"></i>
-                                    </a>
-                                    <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
-                                        <i class="icon-refresh"></i>
-                                    </a>
-
+                            <div class="btn-group" id="continent-name">
+                                <a href="#" class="btn">
+                                    <strong data-bind="text: name"></strong>
+                                </a>
+                                <a href="#" class="btn" title="Click to open live map" data-bind="click: showMap">
+                                    <i class="icon-globe"></i>
+                                </a>
+                                <a href="#" class="btn" title="Refresh indicator, click to refresh continent manually." data-bind="click: refresh, css: { 'btn-success': loading }">
+                                    <i class="icon-refresh"></i>
+                                </a>
                             </div>
                          </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
 
-                            <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }">
-                            <a href="#" class="btn" title="Capture Rate" data-bind="css: { 'btn-success': captureRate() > 1, 'btn-danger': captureRate() < 1, 'btn-warning': captureRate() == 1 }"><i class="icon-white" data-bind="css: { 'icon-arrow-up': captureRate() > 1, 'icon-arrow-down': captureRate() < 1, 'icon-pause': captureRate() == 1 }"></i> </a>
-                                </a>
-                                <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: toggleBonus, css: {'btn-success': hasContinentBonus, 'btn-danger': bonus() > 0 , 'btn-inverse': bonus() == -1 }">
-                                    <i class="icon-star" data-bind="css: {'icon-white': bonus() == -1 }"></i>
-                                </a>
+                            <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: totals().facilities, css: { 'btn-inverse': regions().length < 1, 'btn-danger': status() < 0, 'btn-warning': status() == 0, 'btn-success': status() > 0 }"></a>
+                            <a href="#" class="btn" title="Capture Rate" data-bind="css: { 'btn-success': captureRate() > 1, 'btn-danger': captureRate() < 1, 'btn-warning': captureRate() == 1 }"><i class="icon-white" data-bind="css: { 'icon-arrow-up': captureRate() > 1, 'icon-arrow-down': captureRate() < 1, 'icon-pause': captureRate() == 1 }"></i></a>
+                            <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: toggleBonus, css: {'btn-success': hasContinentBonus, 'btn-danger': bonus() > 0 , 'btn-inverse': bonus() == -1 }">
+                                <i class="icon-star" data-bind="css: {'icon-white': bonus() == -1 }"></i>
+                            </a>
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                        <div class="progress" title="Territory controlled in % by faction">
+                         <div class="progress" title="Territory controlled in % by faction">
                             <div class="bar" data-bind="style:{ width: percentage(factions().nc) + '%' }"></div>
                             <div class="bar" style="background: purple;" data-bind="style:{ width: percentage(factions().vs) + '%' }"></div>
                             <div class="bar" style="background: #a52a2a;" data-bind="style:{ width: percentage(factions().tr) + '%' }"></div>
@@ -138,11 +134,52 @@
                     </div>
             </li>
             </ul>
+            <div id="map-indicators" class="btn-toolbar" data-bind="visible: showmap, if: zone">
+                <div class="btn-group">
+                    <a href="#" class="btn">
+                        <strong data-bind="text: zone().name"></strong>
+                    </a>
+                    <a href="#" class="btn" title="Facilities owned by faction, color indicates state of continent according to total percentage owned" data-bind="text: zone().totals().facilities, css: { 'btn-inverse': zone().regions().length < 1, 'btn-danger': zone().status() < 0, 'btn-warning': zone().status() == 0, 'btn-success': zone().status() > 0 }">
+                    </a>
+                    <a href="#" class="btn" title="Capture Rate" data-bind="css: { 'btn-success': zone().captureRate() > 1, 'btn-danger': zone().captureRate() < 1, 'btn-warning': zone().captureRate() == 1 }">
+                        <i class="icon-white" data-bind="css: { 'icon-arrow-up': zone().captureRate() > 1, 'icon-arrow-down': zone().captureRate() < 1, 'icon-pause': zone().captureRate() == 1 }"></i> 
+                    </a>                    
+                    <a href="#" class="btn" title="Continent bonus indicator: black = unknown, green = faction, red = enemy faction, grey = neutral, click to override." data-bind="click: zone().toggleBonus, css: {'btn-success': zone().hasContinentBonus, 'btn-danger': zone().bonus() > 0 , 'btn-inverse': zone().bonus() == -1 }">
+                        <i class="icon-star" data-bind="css: {'icon-white': zone().bonus() == -1 }"></i>
+                    </a>
+                 </div>
+                 <div class="btn-group">  
+                    <a href="#" class="btn" data-bind="css: { 'btn-success': zone().hasBioBonus }" title="Health Regeneration Bonus indicator">
+                        <i class="icon-heart"></i>
+                    </a>
+                    <a href="#" class="btn" data-bind="css: { 'btn-success': zone().hasTechBonus }" title="Main Battle Tank Bonus indicator">
+                        <i class="icon-plane"></i>
+                    </a>
+                    <a href="#" class="btn" data-bind="css: { 'btn-success': zone().hasAmpBonus}" title="Phalanx Overheat Reduction Bonus indicator">
+                        <i class="icon-fire"></i>                    
+                    </a>
+                  </div>
+                <div class="btn-group">  
+                    <a href="#" class="btn btn-inverse" title="Infantry resources per tick"><i class="icon-infantry"></i> <!--ko text: zone().totals().infantry--><!--/ko--></a>
+                    <a href="#" class="btn btn-inverse" title="Mechanized resources per tick"><i class="icon-mechanized"></i> <!--ko text: zone().totals().mechanized--><!--/ko--></a>
+                    <a href="#" class="btn btn-inverse" title="Aerospace resources per tick"><i class="icon-aerospace"></i> <!--ko text: zone().totals().aerospace--><!--/ko--></a>
+                </div>
+                <div class="btn-group"> 
+                    <a href="#" class="btn" data-bind="click: closeMap">
+                       <i class="icon-th-large"></i> Back to dashboard
+                    </a>
+                </div>
+                <div class="progress" title="Territory controlled in % by faction">
+                    <div class="bar" data-bind="style:{ width: zone().percentage(zone().factions().nc) + '%' }"></div>
+                    <div class="bar" style="background: purple;" data-bind="style:{ width: zone().percentage(zone().factions().vs) + '%' }"></div>
+                    <div class="bar" style="background: #a52a2a;" data-bind="style:{ width: zone().percentage(zone().factions().tr) + '%' }"></div>
+                </div>
+            </div>
             <div id="mapContainer" style="height: 600px" data-bind="visible: showmap"></div>
             <div class="text-center">
                 <div class="input-prepend" title="The following url can be used as bookmark to jump to the selected server and faction.">
                     <span class="add-on"><i class="icon-bookmark"></i></span>
-                    <input type="text" class="input-xxlarge" data-bind="value: bookmarkUrl, click: selectText" />
+                    <input type="text" class="input-online-block" data-bind="value: bookmarkUrl, click: selectText" />
                 </div>
             </div>
         </div>
@@ -162,6 +199,8 @@
         </div>
 
     </footer>
+
+
   <!-- Library CDN's and app -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
@@ -170,7 +209,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/linq.js/2.2.0.2/linq.min.js"></script>     
   <script src="//api.ps2hq.com/latest/embed/map.js"></script>
-  <script src="js/ps2mon.min.js?v=0.81"></script> 
+  <script src="js/ps2mon.min.js?v=0.82"></script> 
 
   <!-- Google Analytics -->
   <script>
